@@ -17,7 +17,7 @@ def create_db_connection(host, port, user, password, database):
 
 # פונקציה לשליפת נתונים מבסיס הנתונים
 def fetch_data(query, params=None):
-    connection = create_db_connection()
+    connection = create_db_connection('localhost', 3306, 'root', 'yotam', 'web_users')
     if connection:
         try:
             cursor = connection.cursor()
@@ -35,7 +35,7 @@ def fetch_data(query, params=None):
 
 # פונקציה להכנסת נתונים לבסיס הנתונים
 def insert_data(query, params=None):
-    connection = create_db_connection()
+    connection = create_db_connection('localhost', 3306, 'root', 'yotam', 'web_users')
     if connection:
         try:
             cursor = connection.cursor()
