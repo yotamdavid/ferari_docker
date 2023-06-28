@@ -1,12 +1,27 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = 'mysecretkey'  # מפתח סודי לשימור הסשן
+# חיבור לבסיס הנתונים
+db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='yotam',
+    database='web_users'
+)
 
-# רשימת משתמשים רשומים
-users = []
-
+# יצירת טבלת משתמשים אם היא עדיין לא קיימת
+cursor = db.cursor()
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL
+    )
+''')
+db.commit()
 
 # דף הראשי
 @app.route('/')
@@ -20,15 +35,19 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        email = request.form['email']
 
-        # בדיקה אם שם המשתמש כבר קיים
-        if any(user['username'] == username for user in users):
+        # בדיקה אם שם המשתמש כבר קיים בבסיס הנתונים
+        cursor.execute('SELECT * FROM users WHERE username=%s', (username,))
+        user = cursor.fetchone()
+        if user:
             flash('שם המשתמש כבר תפוס')
             return redirect('/register')
 
-        # שמירת הנתונים של המשתמש
+        # שמירת הנתונים של המשתמש בבסיס הנתונים
         hashed_password = generate_password_hash(password)
-        users.append({'username': username, 'password': hashed_password})
+        cursor.execute('INSERT INTO users (username, password, email) VALUES (%s, %s, %s)', (username, hashed_password, email))
+        db.commit()
 
         flash('נרשמת בהצלחה!')
         return redirect('/login')
@@ -43,9 +62,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים במערכת
-        user = next((user for user in users if user['username'] == username), None)
-        if user and check_password_hash(user['password'], password):
+        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים בבסיס הנתונים
+        cursor.execute('SELECT * FROM users WHERE username=%s', (username,))
+        user = cursor.fetchone()
+        if user and check_password_hash(user[2], password):
             # התחברות מוצלחת - שמירת המשתמש ב-session
             session['username'] = username
             flash('התחברת בהצלחה!')
@@ -64,7 +84,8 @@ def dashboard():
     if 'username' in session:
         # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
         username = session['username']
-        user = next((user for user in users if user['username'] == username), None)
+        cursor.execute('SELECT * FROM users WHERE username=%s', (username,))
+        user = cursor.fetchone()
         return render_template('dashboard.html', user=user)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
