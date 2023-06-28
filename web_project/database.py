@@ -7,7 +7,7 @@ def create_db_connection():
             port=3306,
             user='root',
             password='yotam',
-            database='web_users'
+            database='web_users',
             auth_plugin='mysql_native_password'
         )
         return connection
