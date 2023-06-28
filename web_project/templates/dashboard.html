@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Welcome to the Dashboard</h1>
+    <h2>Hello, <span id="username"></span></h2>
+    <button id="logoutBtn">Logout</button>
+
+    <script>
+        // Get the username from localStorage and display it
+        const username = localStorage.getItem('username');
+        if (username) {
+            document.getElementById('username').textContent = username;
+        }
+
+        // Logout button event handler
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', () => {
+            // Clear the localStorage values and redirect to the login page
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>

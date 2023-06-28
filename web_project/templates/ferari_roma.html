@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>המייבאים - פרארי רומא</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deus_Ferrari.png" type="image/x-icon">
+
+      <style>
+        #image-slider {
+          position: fixed;
+          top: 50%;
+          left: 0;
+          transform: translate(0, -50%);
+          height: 100vh;
+          width: 300px; /* רוחב הסרגל */
+          overflow: hidden;
+          background-color: #333; /* צבע רקע */
+          border-radius: 15px; /* עיגול פינות */
+          padding: 10px; /* רווח בין התמונות למסגרת */
+        }
+
+        #image-slider .slider-container {
+          position: relative;
+          height: 100%;
+          width: 100%;
+          animation: slide 30s linear infinite; /* מהירות וזמן סיום של 10 שניות */
+        }
+
+        #image-slider img {
+          display: block;
+          width: 100%;
+          border-radius: 15px; /* עיגול פינות לתמונות */
+        }
+
+        @keyframes slide {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(calc(-100% + 300px)); /* הזזת התמונות למעלה עם מרווח של 300px */
+          }
+        }
+      </style>
+    </head>
+ <body>
+      <div id="image-slider">
+        <div class="slider-container">
+         <img src="https://images.autoboom.co.il/6uEWslcZ1nWwHCUOD-VB9CuxXcubcmUrMvvQj5djLQc/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMTIuanBn.webp">
+         <img src="https://images.autoboom.co.il/9smaXKOsyHkhO5ovl_2XwiIB1BsoIPUjE6IsXSvrMLk/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMjMuanBn.webp">
+         <img src="https://images.autoboom.co.il/3W8BqvJ5ZIlrUSdgPFSgk54dYa08dHAz17LRgt0FRS8/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMjUuanBn.webp">
+         <img src="https://images.autoboom.co.il/da1gOKykOMUm3nWgfsMvgLUWwXczXpvdveSJ4q3qdQE/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMjcuanBn.webp">
+         <img src="https://images.autoboom.co.il/0SKpqEuGHrn5ZN2gebFwho29z1e_yeCTwaElsvnNZDs/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMjQuanBn.webp">
+         <img src="https://images.autoboom.co.il/ywMAjX4md792i9XGKtDma_Tl5asA4IDymiFzvoZcGRI/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzIvMzIwMDkuanBn.webp">
+         <img src="https://images.autoboom.co.il/ydTZ5qj3bbRLeHuHXRPcKJc_L4WWYOzHCeno7ozNdFs/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzEvMzE5OTAuanBn.webp">
+        </div>
+      </div>
+
+ </body>
+</head>
+<body >
+    <header>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת והתפריט -->
+        <h1>המייבאים</h1>
+        <nav class="navigation">
+            <ul>
+                <li><a href="{{ url_for('index') }}">דף הבית</a></li>
+                <li><a href="{{ url_for('about') }}">אודותינו</a></li>
+                <li><a href="{{ url_for('services') }}">נסיעת מבחן</a></li>
+                <li><a href="{{ url_for('contact') }}">צור קשר</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<main class="overlay">
+    <body>
+      <div class="overlay">
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        .car-info {
+          display: none;
+        }
+
+        .active {
+          display: block;
+        }
+      </style>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          $('.car-button').click(function() {
+            var carInfoId = $(this).data('info');
+            if ($('#' + carInfoId).hasClass('active')) {
+              $('#' + carInfoId).removeClass('active');
+            } else {
+              $('.car-info').removeClass('active');
+              $('#' + carInfoId).addClass('active');
+            }
+          });
+        });
+      </script>
+    </head>
+    <body>
+      <h1>הרכבים שלנו</h1>
+      <div>
+        <h2>פרארי רומא</h2>
+        <img src="https://www.pngarts.com/files/8/Ferrari-Roma-PNG-Picture.png" width="400" alt="תמונה" />
+        <div>
+          <button class="car-button" data-info="ioniq5-description">Description</button>
+          <button class="car-button" data-info="ioniq5-performance">Performance</button>
+          <button class="car-button" data-info="ioniq5-fuel-consumption">Fuel Consumption</button>
+          <button class="car-button" data-info="ioniq5-safety">Safety</button>
+          <button class="car-button" data-info="ioniq5-price">Price</button>
+        </div>
+        <div>
+          <div id="ioniq5-description" class="car-info">
+            <h3>Description</h3>
+            <p>פרארי רומא היא מכונית ספורטיבית ואקזוטית בתצורת קופה 2+2. לעומת מכוניות הקצה של פרארי, לא תצטרכו להתפשר בתחום אבזור הנוחות ותזכו לקבל מסך מולטימדיה אנכי בקונסולה שבין המושבים, לוח מחוונים דיגיטלי ורשימת תוספות כיד הדמיון. למרות צמד המושבים מאחור, המרווח יספיק לילדים קטנים בלבד וגם נפח תא המטען נותר מצומצם. העיצוב המרהיב יגרום לכם לשכוח מכל אותן זוטות</p>
+          </div>
+          <div id="ioniq5-performance" class="car-info">
+            <h3>Performance</h3>
+            <p>לרומא מנוע קדמי מרכזי בתצורת V8 ובנפח של 3,855 סמ"ק, כאשר ההספק עומד על 620 כ"ס וההאצה ל-100 קמ"ש אורכת 3.4 שניות</p>
+          </div>
+          <div id="ioniq5-fuel-consumption" class="car-info">
+            <h3>Fuel Consumption</h3>
+            <p>This is the fuel consumption information</p>
+          </div>
+          <div id="ioniq5-safety" class="car-info">
+            <h3>Safety</h3>
+            <p>This is the safety information</p>
+          </div>
+          <div id="ioniq5-price" class="car-info">
+            <h3>Price</h3>
+            <p>1,850,000 ש"ח</p>
+          </div>
+        </div>
+      </div>
+</main>
+
+    <footer>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת -->
+        <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+          <title>המייבאים - דף הבית</title>
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deus_Ferrari.png" type="image/x-icon">
+<script src="script.js"></script>
+</body>
+  <style>
+    #image-slider {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      transform: translate(0, -50%);
+      height: 100vh;
+      width: 300px; /* רוחב הסרגל */
+      overflow: hidden;
+      background-color: #333; /* צבע רקע */
+      border-radius: 15px; /* עיגול פינות */
+      padding: 10px; /* רווח בין התמונות למסגרת */
+    }
+
+    #image-slider .slider-container {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      animation: slide 30s linear infinite; /* מהירות וזמן סיום של 10 שניות */
+    }
+
+    #image-slider img {
+      display: block;
+      width: 100%;
+      border-radius: 15px; /* עיגול פינות לתמונות */
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(calc(-100% + 300px)); /* הזזת התמונות למעלה עם מרווח של 300px */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="image-slider">
+    <div class="slider-container">
+     <img src="https://www.icar.co.il//_media/images/models/new/ferrari/roma/new/ferrari-roma-new-Front.jpg">
+     <img src="https://www.icar.co.il//_media/images/models/new/ferrari/roma/new/ferrari-roma-new-Interior.jpg">
+     <img src="https://www.icar.co.il//_media/images/models/new/ferrari/roma/new/ferrari-roma-new-Rear.jpg">
+     <img src="https://www.icar.co.il/_media/articles/5723.jpg">
+     <img src="https://www.icar.co.il/_media/userfiles/image/images/Ferrari%20296%20GTB%20(4).jpg">
+     <img src="https://www.icar.co.il/_media/userfiles/image/images/Ferrari%20296%20GTB%20(6).jpg">
+     <img src="https://www.icar.co.il/_media/userfiles/image/images/Ferrari%20296%20GTB%20Assetto%20Fiorano%20(1).jpg">
+    </div>
+  </div>
+
+  <header>
+    <h1>המייבאים</h1>
+  </header>
+  <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li><a href="{{ url_for('register') }}">הרשמה</a></li>
+        <li><a href="{{ url_for('login') }}">התחברות</a></li>
+        <li><a href="{{ url_for('dashboard') }}">פרטים</a></li>
+        <li><a href="{{ url_for('logout') }}">התנתקות</a></li>
+      </ul>
+    </nav>
+
+    <script>
+      const menuIcon = document.querySelector('.menu-icon');
+      const menu = document.querySelector('.menu');
+
+      menuIcon.addEventListener('click', function() {
+        menu.classList.toggle('show');
+      });
+    </script>
+
+  <nav class="navigation">
+    <ul>
+      <li><a href="{{ url_for('index') }}">דף הבית</a></li>
+      <li><a href="{{ url_for('about') }}">אודותינו</a></li>
+      <li><a href="{{ url_for('services') }}">נסיעת מבחן</a></li>
+      <li><a href="{{ url_for('contact') }}">צור קשר</a></li>
+    </ul>
+  </nav>
+  <main class="overlay">
+    <h1>הרכבים שלנו</h1>
+    <a class="button" href="ferari_roma">
+      <img src="https://www.icar.co.il/_media/images/models/bgremoval/ferrari-roma-new.jpg" alt="תמונה" />
+      <span class="button-text">פרארי רומא</span>
+    </a>
+
+    <a class="button" href="ferari_296">
+      <img src="https://www.icar.co.il/_media/images/models/bgremoval/ferrari-296-new.jpg" alt="תמונה" />
+      <span class="button-text">פרארי 296</span>
+    </a>
+
+    <a class="button" href="ferari_f8">
+      <img src="https://www.icar.co.il/_media/images/models/bgremoval/ferrari-f8-new.jpg" alt="תמונה" />
+      <span class="button-text">פרארי f8</span>
+    </a>
+  </main>
+
+      <footer>
+        <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
+      </footer>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

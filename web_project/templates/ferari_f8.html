@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>המייבאים - פרארי f8</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deus_Ferrari.png" type="image/x-icon">
+
+      <style>
+        #image-slider {
+          position: fixed;
+          top: 50%;
+          left: 0;
+          transform: translate(0, -50%);
+          height: 100vh;
+          width: 300px; /* רוחב הסרגל */
+          overflow: hidden;
+          background-color: #333; /* צבע רקע */
+          border-radius: 15px; /* עיגול פינות */
+          padding: 10px; /* רווח בין התמונות למסגרת */
+        }
+
+        #image-slider .slider-container {
+          position: relative;
+          height: 100%;
+          width: 100%;
+          animation: slide 30s linear infinite; /* מהירות וזמן סיום של 10 שניות */
+        }
+
+        #image-slider img {
+          display: block;
+          width: 100%;
+          border-radius: 15px; /* עיגול פינות לתמונות */
+        }
+
+        @keyframes slide {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(calc(-100% + 300px)); /* הזזת התמונות למעלה עם מרווח של 300px */
+          }
+        }
+      </style>
+    </head>
+<body>
+      <div id="image-slider">
+        <div class="slider-container">
+         <img src="https://www.galgalim.co.il/filestock/img/img_1593678908730-0.jpg">
+         <img src="https://www.sport5.co.il/Sip_Storage/FILES/5/size475x318/1024095.jpg">
+         <img src="https://www.cmotors.co.il/wp-content/uploads/2020/07/D7A4D7A8D790D7A8D799-8F-D7A1D7A4D799D799D793D7A8.jpg">
+         <img src="https://images.autoboom.co.il/S5w471Zqd2pty5d6rMeruYTezJoa1vBgD29gsXRG1cM/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzEvMzE4NDEuanBn.webp">
+         <img src="https://www.cartube.co.il/images/stories/ferrari/2019/53fca6d7-ferrari-f8-spider-3-970px.jpg">
+         <img src="https://images.autoboom.co.il/VVutLGUsthHgdOEviSTH0HgFOwNaNabWhRBzKx2YAXE/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzEvMzE4MzIuanBn.webp">
+         <img src="https://images.autoboom.co.il/K_ARfq_6VN_CXkRl1BvGFSxZLnZE7qbfyHpIhZ3vdOE/fit/1800/1800/sm/0/Z3M6Ly9hdXRvYm9vbS1pbWFnZXMvMDAwLzAwMC8wMzEvMzE4MDguanBn.webp">
+        </div>
+      </div>
+
+</head>
+    <header>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת והתפריט -->
+        <h1>המייבאים</h1>
+        <nav class="navigation">
+            <ul>
+                <li><a href="{{ url_for('index') }}">דף הבית</a></li>
+                <li><a href="{{ url_for('about') }}">אודותינו</a></li>
+                <li><a href="{{ url_for('services') }}">נסיעת מבחן</a></li>
+                <li><a href="{{ url_for('contact') }}">צור קשר</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<main class="overlay">
+    <body>
+      <div class="overlay">
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        .car-info {
+          display: none;
+        }
+
+        .active {
+          display: block;
+        }
+      </style>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          $('.car-button').click(function() {
+            var carInfoId = $(this).data('info');
+            if ($('#' + carInfoId).hasClass('active')) {
+              $('#' + carInfoId).removeClass('active');
+            } else {
+              $('.car-info').removeClass('active');
+              $('#' + carInfoId).addClass('active');
+            }
+          });
+        });
+      </script>
+    </head>
+    <body>
+      <h1>הרכבים שלנו</h1>
+      <div>
+        <h2>פרארי f8</h2>
+        <img src="https://assets.yad2.co.il/vehicles/model/image/3036.png" width="400" alt="תמונה" />
+        <div>
+          <button class="car-button" data-info="ioniq5-description">Description</button>
+          <button class="car-button" data-info="ioniq5-performance">Performance</button>
+          <button class="car-button" data-info="ioniq5-fuel-consumption">Fuel Consumption</button>
+          <button class="car-button" data-info="ioniq5-safety">Safety</button>
+          <button class="car-button" data-info="ioniq5-price">Price</button>
+        </div>
+        <div>
+          <div id="ioniq5-description" class="car-info">
+            <h3>Description</h3>
+            <p> פרארי F8 היא מכונית ספורט איטלקיה ואקזוטית. זה מתחיל כבר ממנוע ה-V8 כפול המגדשים בנפח של 3.9 ליטרים המספק 720 כ"ס ב-7,000 סל"ד יחד עם מומנט מירבי העומד על 78.5 קג"מ הזמינים מ-3,250 סל"ד</p>
+          </div>
+          <div id="ioniq5-performance" class="car-info">
+            <h3>Performance</h3>
+            <p>ההאצה ל-100 קמ"ש אורכת 2.9 שניות בלבד והיא עושה זאת בזכות תיבת הילוכים כפולת מצמדים עם 7 הילוכים</p>
+          </div>
+          <div id="ioniq5-fuel-consumption" class="car-info">
+            <h3>Fuel Consumption</h3>
+            <p>This is the fuel consumption information</p>
+          </div>
+          <div id="ioniq5-safety" class="car-info">
+            <h3>Safety</h3>
+            <p>רשימת התוספות ארוכה וניתן לאפיין כמעט כל דבר ברכב, אך מערכות בטיחות אקטיביות דווקא לא תמצאו כאן</p>
+          </div>
+          <div id="ioniq5-price" class="car-info">
+            <h3>Price</h3>
+            <p>2,040,000 ש"ח</p>
+          </div>
+        </div>
+      </div>
+</main>
+
+    <footer>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת -->
+        <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
+    </footer>
+</body>
+</html>

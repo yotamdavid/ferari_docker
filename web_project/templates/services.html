@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>המייבאים - שירותים</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deus_Ferrari.png" type="image/x-icon">
+
+<style>
+  #video-slider {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    height: 100vh; /* גובה הסרגל */
+    width: 300px;
+    overflow: hidden;
+    background-color: #333; /* צבע רקע */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #video-slider .slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 10px; /* רווח בין הסרטונים למסגרת */
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  #video-slider iframe {
+    width: 100%; /* רוחב הסרטון */
+    height: 168px; /* גובה הסרטון */
+    margin-bottom: 10px; /* רווח מתחת לסרטון הקודם */
+    border: none;
+  }
+</style>
+</head>
+  <div id="video-slider">
+    <div class="slider-container">
+      <iframe src="https://www.youtube.com/embed/62Wf3GMJzpQ" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/zXZugvH8YQI" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/Eq9YMrozoCI" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/JrNEogFDhbE" frameborder="0" allowfullscreen></iframe>
+        <!-- הוסיפו כאן סרטונים נוספים עם תגי <iframe> -->
+    </div>
+  </div>
+
+
+    <style>
+        #tableContainer {
+            float: right;
+            margin-right: 200px; /* שינוי: שינוי מציון השמאל למציון הימני */
+            text-align: center;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            flex-shrink: 0;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="overlay">
+    <header>
+        <h1>המייבאים</h1>
+        <nav class="navigation">
+            <ul>
+                <li><a href="{{ url_for('index') }}">דף הבית</a></li>
+                <li><a href="{{ url_for('about') }}">אודותינו</a></li>
+                <li><a href="{{ url_for('services') }}">נסיעת מבחן</a></li>
+                <li><a href="{{ url_for('contact') }}">צור קשר</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+<html>
+<head>
+  <title>טופס תיאום פגישה</title>
+
+  <script>
+    var appointments = {};
+
+    function addAppointment() {
+      if (Object.keys(appointments).length > 0) {
+        alert('כבר נקבעה פגישה. אין אפשרות לקבוע פגישה נוספת.');
+        return;
+      }
+
+      var selectedDate = document.getElementById('dateInput').value;
+      var selectedTime = document.getElementById('timeSelect').value;
+      var phoneNumber = document.getElementById('phoneInput').value;
+
+      if (!selectedDate || !selectedTime) {
+        alert('יש להזין תאריך ושעה');
+        return;
+      }
+
+      if (!validatePhoneNumber(phoneNumber)) {
+        alert('מספר הטלפון אינו חוקי');
+        return;
+      }
+
+      var today = new Date().setHours(0, 0, 0, 0);
+      var selectedDateTime = new Date(selectedDate).setHours(0, 0, 0, 0);
+      if (selectedDateTime < today) {
+        alert('אין אפשרות לקבוע פגישה עבור תאריכים שעברו.');
+        return;
+      }
+
+      var selectedDay = new Date(selectedDate).getDay();
+      if (selectedDay === 5 || selectedDay === 6) {
+        alert('אין אפשרות לקבוע פגישה בימי שישי או שבת.');
+        return;
+      }
+
+      if (appointments[selectedDate] && appointments[selectedDate][selectedTime]) {
+        alert('פגישה כבר נקבעה בשעה הנבחרת. אנא בחר שעה אחרת.');
+        return;
+      }
+
+      var confirmationMessage = 'פגישתך נקבעה בהצלחה לתאריך: ' + selectedDate + ', שעה: ' + selectedTime;
+      alert(confirmationMessage);
+
+      if (!appointments[selectedDate]) {
+        appointments[selectedDate] = {};
+      }
+      appointments[selectedDate][selectedTime] = true;
+
+      localStorage.setItem('phoneNumber', phoneNumber);
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+
+      var table = document.querySelector('table');
+      var row = table.insertRow(-1);
+      var dateCell = row.insertCell(0);
+      var timeCell = row.insertCell(1);
+      dateCell.innerHTML = selectedDate;
+      timeCell.innerHTML = selectedTime;
+
+      var timeOptions = document.getElementById('timeSelect').options;
+      for (var i = 0; i < timeOptions.length; i++) {
+        if (timeOptions[i].value === selectedTime) {
+          timeOptions[i].disabled = true;
+          break;
+        }
+      }
+
+      var dateOptions = document.getElementById('dateInput').options;
+      for (var j = 0; j < dateOptions.length; j++) {
+        if (dateOptions[j].value === selectedDate) {
+          dateOptions[j].disabled = true;
+          break;
+        }
+      }
+
+      document.getElementById('dateInput').value = '';
+      document.getElementById('timeSelect').value = '';
+      document.getElementById('phoneInput').value = '';
+    }
+
+    function validatePhoneNumber(phoneNumber) {
+      var phoneRegex = /^\d{10}$/; // פסול מספרי טלפון בתבנית של 10 ספרות בלבד
+      return phoneRegex.test(phoneNumber);
+    }
+
+    function loadAppointments() {
+      var storedAppointments = localStorage.getItem('appointments');
+      var storedPhoneNumber = localStorage.getItem('phoneNumber');
+
+      if (storedAppointments) {
+        appointments = JSON.parse(storedAppointments);
+      }
+
+      if (storedPhoneNumber) {
+        document.getElementById('phoneInput').value = storedPhoneNumber;
+      }
+
+      var appointmentsTable = document.getElementById('appointmentsTable');
+      for (var date in appointments) {
+        for (var time in appointments[date]) {
+          var row = appointmentsTable.insertRow(-1);
+          var dateCell = row.insertCell(0);
+          var timeCell = row.insertCell(1);
+          dateCell.innerHTML = date;
+          timeCell.innerHTML = time;
+        }
+      }
+    }
+
+    function saveAppointments() {
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+    }
+  </script>
+</head>
+<body>
+<main>
+    <h2>תיאום נסיעת מבחן</h2>
+    <p>אנחנו מציעים לכם מגוון רחב של שירותים כמו פגישות עם נציגי המכירות שלנו, נסיעות מבחן, הזמנות וייבואים של מכוניות ספציפיות ועוד</p>
+
+    <div id="tableContainer">
+        <table>
+            <thead>
+                <tr>
+                    <th>תאריך</th>
+                    <th>שעה</th>
+                    <th>מספר טלפון</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="date" id="dateInput">
+                    </td>
+                    <td>
+                        <select id="timeSelect">
+                            <option value="">בחר שעה</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <!-- הוסף כאן את שאר אפשרויות השעות -->
+                        </select>
+                    </td>
+                    <td>
+                        <input type="tel" id="phoneInput" placeholder="מספר טלפון">
+                    </td>
+                    <td>
+                        <button onclick="addAppointment()">קבע פגישה</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+  <script>
+    window.addEventListener('beforeunload', saveAppointments);
+  </script>
+</body>
+
+    <footer>
+        <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
+    </footer>
+</html>

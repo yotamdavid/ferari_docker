@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Logout</h1>
+    <p>Are you sure you want to logout?</p>
+    <button id="logoutBtn">Logout</button>
+
+    <script>
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', () => {
+            // Clear the localStorage values and redirect to the login page
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('username');
+            window.location.href = '/login';
+        });
+
+        // Check if user is already logged in
+        const loggedIn = localStorage.getItem('loggedIn');
+        if (!loggedIn) {
+            // User is not logged in, redirect to login
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

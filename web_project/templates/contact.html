@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>המייבאים - צור קשר</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deus_Ferrari.png" type="image/x-icon">
+
+</head>
+
+    <header>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת והתפריט -->
+        <h1>המייבאים</h1>
+        <nav>
+            <ul class="navigation">
+                <li><a href="{{ url_for('index') }}">דף הבית</a></li>
+                <li><a href="{{ url_for('about') }}">אודותינו</a></li>
+                <li><a href="{{ url_for('services') }}">נסיעת מבחן</a></li>
+                <li><a href="{{ url_for('contact') }}">צור קשר</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="overlay">
+        <div class="social-sidebar">
+           <div class="text">תעקבו אחרינו</div>
+          <a href="https://www.facebook.com/profile.php?id=100003081524518" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png" alt="פייסבוק" width="200px" height="רוחב">
+          </a>
+          <a href="https://instagram.com/yotam_david1?igshid=MzNlNGNkZWQ4Mg==" target="_blank">
+            <img src="https://www.freepnglogos.com/uploads/logo-ig-png/ig-logo-png-instagram-blue-logo-png-4.png" alt="אינסטגרם" width="200px" height="רוחב">
+          </a>
+          <a href="https://www.tiktok.com/@yotamdavidspecials?_t=8cy53h8yyEk&_r=1" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/he/thumb/b/b6/%D7%98%D7%99%D7%A7%D7%98%D7%95%D7%A7.png/1200px-%D7%98%D7%99%D7%A7%D7%98%D7%95%D7%A7.png" alt="אינסטגרם" width="200px" height="רוחב">
+          </a>
+        </div>
+        <!-- כאן ניתן להוסיף את תוכן הדף "צור קשר" -->
+        <h2>דברו איתנו אנחנו לא נושכים</h2>
+        <a class="link-special" href="https://mail.google.com/mail/?view=cm&to=yotam.david1@gmail.com">לחץ כאן כדי לשלוח אימייל</a>
+        <a class="link-special" href="sms:+0545912557">לחץ כאן כדי לשלוח הודעה</a>
+    </main>
+
+    <footer>
+        <!-- כאן ניתן להוסיף את תוכן הכותרת -->
+        <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
+    </footer>
+</body>
+</html>

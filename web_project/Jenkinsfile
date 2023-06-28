@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+    
+    triggers {
+        pollSCM('*/1 * * * *')
+    }
+
+    stages {
+        stage('Cleanup') {
+            steps {
+                sh 'echo "Performing cleanup..."'
+                sh 'rm -rf ferari_website'
+            }
+        }
+
+        
+        stage('Build Image') {
+            steps {
+                script {
+                sh 'docker login -u yotamdavid -p yotyot0202'
+                sh 'git clone https://github.com/yotamdavid/ferari_website.git'
+                dir('ferari_website/web_project') {
+                    sh 'docker build -t yotamdavid/ferari_website:1.0 .'
+                }
+                }
+            }
+        }
+        
+        stage('Run Container and test') {
+            steps {
+                script {
+                    def containerId = sh(returnStdout: true, script: 'docker run -it -p 5000:5000 -d yotamdavid/ferari_website:1.0').trim()
+                    sh "docker exec $containerId bash test.sh"
+                    sh "docker stop $containerId"
+                }
+            }
+        }
+
+        
+        stage('Deploy to Production') {
+            steps {
+                script {
+                    sh 'docker push yotamdavid/ferari_website:1.0'
+                }
+            }
+        }
+        
+        stage('Upload to ec2-prod') {
+            steps {
+                script {
+                    withCredentials([
+                        usernamePassword(credentialsId: 'yotamP', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASSWORD')
+                    ]) {
+                        sh """
+                        echo "upload..."
+                        sshpass -p '$SSH_PASSWORD' ssh -o PreferredAuthentications=password -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null yotam@192.168.56.103 '
+                            cd /home/yotam/Desktop/ &&
+                            echo "running.." &&
+                            sudo -S rm -rf ansible <<< "$SSH_PASSWORD" &&
+                            git clone https://github.com/yotamdavid/ansible.git &&
+                            cd /home/yotam/Desktop/ansible/ansible &&
+                            sudo -S ansible-playbook -i inventory.ini my_playbook.yml <<< "$SSH_PASSWORD"
+                        '
+                        """
+                    }
+                }
+            }
+        }
+    }
+}

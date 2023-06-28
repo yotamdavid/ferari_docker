@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <!-- Login form fields -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Get the entered username and password
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            // Perform login logic
+            // ...
+
+            // Set the loggedIn status in localStorage
+            localStorage.setItem('loggedIn', true);
+            localStorage.setItem('username', username);
+            // Redirect to the dashboard page
+            window.location.href = '/dashboard';
+        });
+
+        // Check if user is already logged in
+        const loggedIn = localStorage.getItem('loggedIn');
+        if (loggedIn) {
+            // User is already logged in, redirect to dashboard
+            window.location.href = '/dashboard';
+        }
+    </script>
+</body>
+</html>
