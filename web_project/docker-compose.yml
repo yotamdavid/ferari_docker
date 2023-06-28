@@ -8,6 +8,9 @@ services:
       - 5000:5000
     depends_on:
       - db
+    links:
+      - db
+
   db:
     image: mysql:latest
     restart: always
@@ -18,3 +21,4 @@ services:
       - ./data:/var/lib/mysql
     ports:
       - 3306:3306
+
