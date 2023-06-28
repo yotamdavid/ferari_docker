@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
+import re
 
 app = Flask(__name__)
 # חיבור לבסיס הנתונים
