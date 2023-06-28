@@ -1,52 +1,50 @@
-from mysql.connector import MySQLConnection, Error
+import mysql.connector
 
-# פונקציה ליצירת חיבור לבסיס הנתונים
-def create_db_connection(host, port, user, password, database):
+
+def create_db_connection():
     try:
-        connection = MySQLConnection(
-            host=host,
-            port=port,
-            user=user,
-            password=password,
-            database=database
+        connection = mysql.connector.connect(
+            host='db',
+            port=5000,
+            user='root',
+            password='yotam',
+            database='web_users'
         )
         return connection
-    except Error as e:
-        print(f"Error connecting to the database: {e}")
+    except mysql.connector.Error as error:
+        print(f"Failed to connect to the database: {error}")
         return None
 
-# פונקציה לשליפת נתונים מבסיס הנתונים
+
 def fetch_data(query, params=None):
-    connection = create_db_connection('db', 3306, 'root', 'yotam', 'web_users')
-    if connection:
-        try:
+    try:
+        connection = create_db_connection()
+        if connection:
             cursor = connection.cursor()
-            if params:
-                cursor.execute(query, params)
-            else:
-                cursor.execute(query)
+            cursor.execute(query, params)
             result = cursor.fetchone()
             cursor.close()
             connection.close()
             return result
-        except Error as e:
-            print(f"Error while fetching data from database: {e}")
-    return None
+        else:
+            return None
+    except mysql.connector.Error as error:
+        print(f"Failed to fetch data from the database: {error}")
+        return None
 
-# פונקציה להכנסת נתונים לבסיס הנתונים
+
 def insert_data(query, params=None):
-    connection = create_db_connection('db', 3306, 'root', 'yotam', 'web_users')
-    if connection:
-        try:
+    try:
+        connection = create_db_connection()
+        if connection:
             cursor = connection.cursor()
-            if params:
-                cursor.execute(query, params)
-            else:
-                cursor.execute(query)
+            cursor.execute(query, params)
             connection.commit()
             cursor.close()
             connection.close()
             return True
-        except Error as e:
-            print(f"Error while inserting data into database: {e}")
-    return False
+        else:
+            return False
+    except mysql.connector.Error as error:
+        print(f"Failed to insert data into the database: {error}")
+        return False
