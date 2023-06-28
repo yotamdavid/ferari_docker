@@ -1,17 +1,18 @@
 from mysql.connector import MySQLConnection, Error
 
 # פונקציה ליצירת חיבור לבסיס הנתונים
-def create_db_connection():
+def create_db_connection(host, port, user, password, database):
     try:
         connection = MySQLConnection(
-            host='db:3306',
-            user='root',
-            password='yotam',
-            database='web_users'
+            host=host,
+            port=port,
+            user=user,
+            password=password,
+            database=database
         )
         return connection
     except Error as e:
-        print(f"Error while connecting to database: {e}")
+        print(f"Error connecting to the database: {e}")
         return None
 
 # פונקציה לשליפת נתונים מבסיס הנתונים
