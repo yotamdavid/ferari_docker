@@ -7,8 +7,8 @@ app = Flask(__name__)
 # חיבור לבסיס הנתונים
 db = mysql.connector.connect(
     host='localhost',
-    user='yotam',
-    password='yotyot0202',
+    user='root',
+    password='yotam',
     database='web_users'
 )
 
