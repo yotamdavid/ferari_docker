@@ -29,7 +29,11 @@ def index():
     return render_template('index.html')
 
 
-# רישום משתמש חדש
+# בדיקה האם האימייל חוקי
+def is_valid_email(email):
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(pattern, email) is not None
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -49,6 +53,11 @@ def register():
         user = cursor.fetchone()
         if user:
             flash('כתובת האימייל כבר קיימת')
+            return redirect('/register')
+
+        # בדיקה אם האימייל חוקי
+        if not is_valid_email(email):
+            flash('כתובת האימייל אינה חוקית')
             return redirect('/register')
 
         # שמירת הנתונים של המשתמש בבסיס הנתונים
