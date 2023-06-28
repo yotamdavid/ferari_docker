@@ -6,7 +6,7 @@ import re
 app = Flask(__name__)
 # חיבור לבסיס הנתונים
 db = mysql.connector.connect(
-    host='localhost:3306',
+    host='db:3306',
     user='root',
     password='yotam',
     database='web_users'
