@@ -8,6 +8,7 @@ def create_db_connection():
             user='root',
             password='yotam',
             database='web_users'
+            auth_plugin='mysql_native_password'
         )
         return connection
     except mysql.connector.Error as error:
