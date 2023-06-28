@@ -3,8 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = 'mysecretkey'  # מפתח סודי לשימור הסשן
-
 # חיבור לבסיס הנתונים
 db = mysql.connector.connect(
     host='localhost',
