@@ -5,19 +5,8 @@ import re
 from database import create_db_connection, fetch_data, insert_data
 
 app = Flask(__name__)
-# חיבור לבסיס הנתונים
-# db_config = {
-#     'host': 'db',            # Use the service name defined in Docker Compose
-#     'port': 3306,
-#     'user': 'root',
-#     'password': 'yotam',
-#     'database': 'web_users'
-# }
 
 # יצירת טבלת משתמשים אם היא עדיין לא קיימת
-
-# app.secret_key = 'the random string'
-
 print("test")
 connection = create_db_connection()
 if connection:
