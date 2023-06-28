@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 
 app = Flask(__name__)
+app.secret_key = 'mysecretkey'  # מפתח סודי לשימור הסשן
+
 # חיבור לבסיס הנתונים
 db = mysql.connector.connect(
     host='localhost',
@@ -42,6 +44,13 @@ def register():
         user = cursor.fetchone()
         if user:
             flash('שם המשתמש כבר תפוס')
+            return redirect('/register')
+
+        # בדיקה אם האימייל כבר קיים בבסיס הנתונים
+        cursor.execute('SELECT * FROM users WHERE email=%s', (email,))
+        user = cursor.fetchone()
+        if user:
+            flash('כתובת האימייל כבר קיימת')
             return redirect('/register')
 
         # שמירת הנתונים של המשתמש בבסיס הנתונים
