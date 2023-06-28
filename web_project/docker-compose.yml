@@ -20,6 +20,8 @@ services:
       MYSQL_DATABASE: web_users
     volumes:
       - data:/var/lib/mysql
+    volumes:
+      data:
     # ports:
     #   - 3306:3306
 
