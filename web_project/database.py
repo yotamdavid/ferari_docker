@@ -5,8 +5,8 @@ def create_db_connection():
     try:
         connection = MySQLConnection(
             host='localhost',
-            user='root',
-            password='yotam',
+            user='yotam',
+            password='yotyot0202',
             database='web_users'
         )
         return connection
