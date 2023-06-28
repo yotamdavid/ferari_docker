@@ -11,7 +11,7 @@ db_config = {
     'user': 'root',
     'password': 'yotam',
     'database': 'web_users'
-)
+}
 
 # יצירת טבלת משתמשים אם היא עדיין לא קיימת
 cursor = db.cursor()
