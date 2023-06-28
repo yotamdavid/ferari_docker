@@ -4,7 +4,7 @@ from mysql.connector import MySQLConnection, Error
 def create_db_connection():
     try:
         connection = MySQLConnection(
-            host='localhost',
+            host='localhost:3306',
             user='root',
             password='yotam',
             database='web_users'
