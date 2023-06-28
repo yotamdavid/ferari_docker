@@ -5,11 +5,12 @@ import re
 
 app = Flask(__name__)
 # חיבור לבסיס הנתונים
-db = mysql.connector.connect(
-    host='db:3306',
-    user='root',
-    password='yotam',
-    database='web_users'
+db_config = {
+    'host': 'db',            # Use the service name defined in Docker Compose
+    'port': 3306,
+    'user': 'root',
+    'password': 'yotam',
+    'database': 'web_users'
 )
 
 # יצירת טבלת משתמשים אם היא עדיין לא קיימת
