@@ -14,6 +14,7 @@ db_config = {
 }
 
 # יצירת טבלת משתמשים אם היא עדיין לא קיימת
+db = mysql.connector.connect(**db_config)
 cursor = db.cursor()
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
