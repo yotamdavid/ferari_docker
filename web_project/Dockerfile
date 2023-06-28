@@ -14,4 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # run the command
-CMD [ "flask", "run","--port","5000"]
+# CMD [ "flask", "run","--port","5000"]
+
+ENTRYPOINT [ "python3", "app.py" ]
