@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # install dependencies
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # define the port number the container should expose
