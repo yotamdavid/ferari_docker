@@ -11,7 +11,7 @@ services:
       - db
     links:
       - db
-    command: sh -c "sleep 10 && python app.py"
+
   db:
     image: mysql:latest
     restart: always
