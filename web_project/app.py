@@ -6,7 +6,6 @@ from database import create_db_connection, execute_query, insert_data
 
 app = Flask(__name__)
 
-print(test)
 # יצירת חיבור למסד הנתונים
 def create_db_connection():
     try:
