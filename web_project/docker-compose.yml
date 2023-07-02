@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - '5000:5000'
     restart: unless-stopped
     depends_on:
       - db
@@ -20,8 +20,9 @@ services:
       MYSQL_DATABASE: 'db'
     volumes:
       - data:/var/lib/mysql
-#volumes:
- #data:
-    ports:
-      - '3306:3306'
 
+volumes:
+  data:
+
+#ports:
+#  - '3306:3306'
