@@ -11,7 +11,7 @@ def create_db_connection():
     try:
         connection = mysql.connector.connect(
             host='mysql',
-            port=3306,
+            port=32000,
             user='root',
             password='yotam',
             database='db'
