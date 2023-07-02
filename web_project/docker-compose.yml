@@ -8,7 +8,8 @@ services:
       - 5000:5000
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy  # הוספת תנאי תלות על המסד נתונים
     links:
       - db
 
@@ -22,6 +23,11 @@ services:
       - data:/var/lib/mysql
     ports:
       - '3306:3306'
+    healthcheck:  # הוספת-healthcheck למסד הנתונים
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
   data:
