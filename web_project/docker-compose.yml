@@ -8,12 +8,12 @@ services:
       - 5000:5000
     restart: unless-stopped
     depends_on:
-      db:
+      mysql:
         condition: service_healthy  # הוספת תנאי תלות על המסד נתונים
     links:
-      - db
+      - mysql
 
-  db:
+  mysql:
     image: mysql:latest
     restart: always
     environment:
