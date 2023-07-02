@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 import re
-from database import create_db_connection, fetch_data, insert_data
+from database import create_db_connection, execute_query, insert_data
 
 app = Flask(__name__)
 
