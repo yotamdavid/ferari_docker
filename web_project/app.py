@@ -1,47 +1,11 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-import mysql.connector
+from redis import Redis
 import re
-from database import create_db_connection, execute_query, insert_data
 
 app = Flask(__name__)
-
-# יצירת חיבור למסד הנתונים
-def create_db_connection():
-    try:
-        connection = mysql.connector.connect(
-            host='mysql',
-            port='3306',
-            user='root',
-            password='yotam',
-            database='db'
-        )
-        return connection
-    except mysql.connector.Error as error:
-        print(f"Failed to connect to the database: {error}")
-        return None
-
-# יצירת טבלת משתמשים אם היא עדיין לא קיימת
-def create_users_table():
-    connection = create_db_connection()
-    if connection:
-        cursor = connection.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL
-            )
-        ''')
-        connection.commit()
-        cursor.close()
-        connection.close()
-
-# יצירת חיבור למסד הנתונים בכל בקשה
-@app.before_request
-def before_request():
-    session['connection'] = create_db_connection()
+app.secret_key = 'super secret key'
+redis = Redis(host='redis', port=6379)
 
 # דף הראשי
 @app.route('/')
@@ -61,15 +25,13 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        # בדיקה אם שם המשתמש כבר קיים בבסיס הנתונים
-        result = fetch_data("SELECT * FROM users WHERE username = %s", (username,))
-        if result:
+        # בדיקה אם שם המשתמש כבר קיים
+        if redis.exists(username):
             flash('שם המשתמש כבר תפוס')
             return redirect('/register')
 
-        # בדיקה אם האימייל כבר קיים בבסיס הנתונים
-        result = fetch_data("SELECT * FROM users WHERE email = %s", (email,))
-        if result:
+        # בדיקה אם האימייל כבר קיים
+        if redis.exists(email):
             flash('כתובת האימייל כבר קיימת')
             return redirect('/register')
 
@@ -78,14 +40,11 @@ def register():
             flash('כתובת האימייל אינה חוקית')
             return redirect('/register')
 
-        # שמירת הנתונים של המשתמש בבסיס הנתונים
+        # שמירת הנתונים של המשתמש ב־Redis
         hashed_password = generate_password_hash(password)
-        result = insert_data("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email))
-        if result:
-            flash('נרשמת בהצלחה!')
-            return redirect('/login')
-        else:
-            flash('אירעה שגיאה בתהליך ההרשמה')
+        redis.hset(username, mapping={'password': hashed_password, 'email': email})
+        flash('נרשמת בהצלחה!')
+        return redirect('/login')
 
     return render_template('register.html')
 
@@ -97,9 +56,9 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים בבסיס הנתונים
-        result = fetch_data("SELECT * FROM users WHERE username = %s", (username,))
-        if result and check_password_hash(result[2], password):
+        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים ב־Redis
+        user_data = redis.hgetall(username)
+        if user_data and check_password_hash(user_data['password'], password):
             # התחברות מוצלחת - שמירת המשתמש ב-session
             session['username'] = username
             flash('התחברת בהצלחה!')
@@ -118,8 +77,8 @@ def dashboard():
     if 'username' in session:
         # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
         username = session['username']
-        result = fetch_data("SELECT * FROM users WHERE username = %s", (username,))
-        return render_template('dashboard.html', user=result)
+        user_data = redis.hgetall(username)
+        return render_template('dashboard.html', user=user_data)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
     return redirect('/')
@@ -168,8 +127,4 @@ def ferari_296():
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super secret key'
-    # יצירת טבלת המשתמשים
-    create_users_table()
-    # התחלת האפליקציה
-    app.run(host='localhost', port=5002, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
