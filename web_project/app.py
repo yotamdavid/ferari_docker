@@ -169,7 +169,7 @@ def ferari_296():
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
-       # יצירת טבלת המשתמשים
+    # יצירת טבלת המשתמשים
     create_users_table()
     # התחלת האפליקציה
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
