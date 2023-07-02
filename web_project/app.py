@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from redis import Redis
 import re
-import redis
+from database import get_data_from_redis, add_data_to_redis, execute_query_mysql, insert_data_mysql
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
-r = redis.Redis(host='redis', port=6379)
+redis = Redis(host='localhost', port=6379)
 
 # דף הראשי
 @app.route('/')
@@ -26,12 +27,12 @@ def register():
         email = request.form['email']
 
         # בדיקה אם שם המשתמש כבר קיים
-        if r.exists(username):
+        if redis.exists(username):
             flash('שם המשתמש כבר תפוס')
             return redirect('/register')
 
         # בדיקה אם האימייל כבר קיים
-        if r.exists(email):
+        if redis.exists(email):
             flash('כתובת האימייל כבר קיימת')
             return redirect('/register')
 
@@ -42,7 +43,8 @@ def register():
 
         # שמירת הנתונים של המשתמש ב־Redis
         hashed_password = generate_password_hash(password)
-        r.hmset(username, {'password': hashed_password, 'email': email})
+        user_data = {'password': hashed_password, 'email': email}
+        add_data_to_redis(username, user_data)
         flash('נרשמת בהצלחה!')
         return redirect('/login')
 
@@ -57,10 +59,10 @@ def login():
         password = request.form['password']
 
         # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים ב־Redis
-        user_data = r.hgetall(username)
-        if user_data and check_password_hash(user_data[b'password'].decode('utf-8'), password):
+        user_data = get_data_from_redis(username)
+        if user_data and check_password_hash(user_data['password'], password):
             # התחברות מוצלחת - שמירת המשתמש ב-session
-            session['username'] = username.decode('utf-8')
+            session['username'] = username
             flash('התחברת בהצלחה!')
             return redirect('/dashboard')
 
@@ -77,8 +79,7 @@ def dashboard():
     if 'username' in session:
         # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
         username = session['username']
-        user_data = r.hgetall(username)
-        user_data = {key.decode('utf-8'): value.decode('utf-8') for key, value in user_data.items()}
+        user_data = get_data_from_redis(username)
         return render_template('dashboard.html', user=user_data)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
