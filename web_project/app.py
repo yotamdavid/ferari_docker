@@ -6,22 +6,42 @@ from database import create_db_connection, fetch_data, insert_data
 
 app = Flask(__name__)
 
-# יצירת טבלת משתמשים אם היא עדיין לא קיימת
-print("test")
-connection = create_db_connection()
-if connection:
-    cursor = connection.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL
+# יצירת חיבור למסד הנתונים
+def create_db_connection():
+    try:
+        connection = mysql.connector.connect(
+            host='db',
+            port='3306',
+            user='root',
+            password='yotam',
+            database='web_users'
         )
-    ''')
-    connection.commit()
-    cursor.close()
-    connection.close()
+        return connection
+    except mysql.connector.Error as error:
+        print(f"Failed to connect to the database: {error}")
+        return None
+
+# יצירת טבלת משתמשים אם היא עדיין לא קיימת
+def create_users_table():
+    connection = create_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                email VARCHAR(255) NOT NULL
+            )
+        ''')
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+# יצירת חיבור למסד הנתונים בכל בקשה
+@app.before_request
+def before_request():
+    session['connection'] = create_db_connection()
 
 # דף הראשי
 @app.route('/')
@@ -149,4 +169,7 @@ def ferari_296():
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
-    app.run(host="0.0.0.0", port=5000)
+       # יצירת טבלת המשתמשים
+    create_users_table()
+    # התחלת האפליקציה
+    app.run(host='0.0.0.0', port=5000, debug=True)
