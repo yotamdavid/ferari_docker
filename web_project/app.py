@@ -172,4 +172,4 @@ if __name__ == '__main__':
     # יצירת טבלת המשתמשים
     create_users_table()
     # התחלת האפליקציה
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='localhost', port=5002, debug=True)
