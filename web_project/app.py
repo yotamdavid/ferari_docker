@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from redis import Redis
 import re
+import redis
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
-redis = Redis(host='redis', port=6379)
+r = redis.Redis(host='redis', port=6379)
 
 # דף הראשי
 @app.route('/')
@@ -26,12 +26,12 @@ def register():
         email = request.form['email']
 
         # בדיקה אם שם המשתמש כבר קיים
-        if redis.exists(username):
+        if r.exists(username):
             flash('שם המשתמש כבר תפוס')
             return redirect('/register')
 
         # בדיקה אם האימייל כבר קיים
-        if redis.exists(email):
+        if r.exists(email):
             flash('כתובת האימייל כבר קיימת')
             return redirect('/register')
 
@@ -42,7 +42,7 @@ def register():
 
         # שמירת הנתונים של המשתמש ב־Redis
         hashed_password = generate_password_hash(password)
-        redis.hset(username, mapping={'password': hashed_password, 'email': email})
+        r.hmset(username, {'password': hashed_password, 'email': email})
         flash('נרשמת בהצלחה!')
         return redirect('/login')
 
@@ -57,10 +57,10 @@ def login():
         password = request.form['password']
 
         # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים ב־Redis
-        user_data = redis.hgetall(username)
-        if user_data and check_password_hash(user_data['password'], password):
+        user_data = r.hgetall(username)
+        if user_data and check_password_hash(user_data[b'password'].decode('utf-8'), password):
             # התחברות מוצלחת - שמירת המשתמש ב-session
-            session['username'] = username
+            session['username'] = username.decode('utf-8')
             flash('התחברת בהצלחה!')
             return redirect('/dashboard')
 
@@ -77,7 +77,8 @@ def dashboard():
     if 'username' in session:
         # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
         username = session['username']
-        user_data = redis.hgetall(username)
+        user_data = r.hgetall(username)
+        user_data = {key.decode('utf-8'): value.decode('utf-8') for key, value in user_data.items()}
         return render_template('dashboard.html', user=user_data)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
