@@ -7,11 +7,15 @@ services:
     ports:
       - '5000:5000'
     depends_on:
-      - redis
-  redis:
-    image: redis
+      - db
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: yotam
     volumes:
-      - web_project_redis_data:/data
+      - web_project_mysql_data:/var/lib/mysql
 volumes:
-  web_project_redis_data:
+  web_project_mysql_data:
+
 
