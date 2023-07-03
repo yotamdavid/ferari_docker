@@ -61,13 +61,12 @@ def login():
             # התחברות מוצלחת - שמירת המשתמש ב-session
             session['username'] = username
             flash('התחברת בהצלחה!')
-            return redirect('/dashboard')
+            return redirect('/')  # הפניה לדף הראשי
 
         flash('שם המשתמש או הסיסמה שגויים')
         return redirect('/login')
 
-    return render_template('login.html')
-
+    return render_template('/')
 
 # דף התנתקות
 @app.route('/logout')
