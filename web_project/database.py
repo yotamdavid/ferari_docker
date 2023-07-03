@@ -1,18 +1,16 @@
-import redis
+import mysql.connector
 
-# יצירת חיבור למסד הנתונים של Redis
-r = redis.Redis(host='localhost', port=6379)
+# פונקציה ליצירת חיבור למסד הנתונים של MySQL
+def create_db_connection():
+    connection = mysql.connector.connect(
+        host='localhost',
+        port='3306',
+        password='yotam',
+        database='db'
+    )
+    return connection
 
-# פונקציה לקריאת נתונים ממפת גביעים ב-Redis
-def get_data_from_redis(key):
-    data = r.hgetall(key)
-    return data
-
-# פונקציה להוספת נתונים למפת גביעים ב-Redis
-def add_data_to_redis(key, value):
-    r.hmset(key, value)
-
-# פונקציה לביצוע שאילתות פשוטות והחזרת התוצאות ממסד הנתונים ב-MySQL
+# פונקציה לביצוע שאילתות פשוטות והחזרת התוצאות ממסד הנתונים של MySQL
 def execute_query_mysql(query, params=None):
     connection = create_db_connection()
     if connection:
@@ -25,7 +23,7 @@ def execute_query_mysql(query, params=None):
     else:
         return None
 
-# פונקציה להכנסת נתונים למסד הנתונים ב-MySQL
+# פונקציה להכנסת נתונים למסד הנתונים של MySQL
 def insert_data_mysql(query, params=None):
     connection = create_db_connection()
     if connection:
