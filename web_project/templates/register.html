@@ -5,64 +5,18 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h1>Register</h1>
-
-    <!-- טופס הרשמה -->
-    <form id="registerForm" method="POST" action="/register">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="email" name="email" id="email" placeholder="Email" required><br>
-        <span id="emailError" style="color: red;"></span><br>
-        <input type="submit" value="Register">
+    <h1>הרשמה</h1>
+    <form method="POST" action="/register">
+        <label for="username">שם משתמש:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">סיסמה:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <label for="email">אימייל:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <input type="submit" value="הרשם">
     </form>
-
-    <script>
-        // בדיקת תקיפות לכתובת האימייל
-        const emailInput = document.getElementById('email');
-        const emailError = document.getElementById('emailError');
-
-        emailInput.addEventListener('input', () => {
-            const email = emailInput.value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            
-            if (!emailRegex.test(email)) {
-                emailError.textContent = 'Invalid email address';
-            } else {
-                emailError.textContent = '';
-            }
-        });
-
-        const registerForm = document.getElementById('registerForm');
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.querySelector('input[name="username"]').value;
-            const password = document.querySelector('input[name="password"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            
-            // Perform registration logic
-            fetch('/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username: username, password: password, email: email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Registration successful, redirect to login page
-                    window.location.href = '/login';
-                } else {
-                    // Show error message
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Registration failed:', error);
-                // Show error message
-                alert('An error occurred during registration. Please try again.');
-            });
-        });
-    </script>
 </body>
 </html>
