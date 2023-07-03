@@ -66,7 +66,7 @@ def login():
         flash('שם המשתמש או הסיסמה שגויים')
         return redirect('/login')
 
-    return render_template('/')
+    return render_template('home.html')
 
 # דף התנתקות
 @app.route('/logout')
