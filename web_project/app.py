@@ -4,7 +4,6 @@ import re
 from database import execute_query_mysql, insert_data_mysql, check_username_exists, check_email_exists, check_credentials, get_user_data
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
 
 # דף הראשי
 @app.route('/')
@@ -126,4 +125,5 @@ def ferari_296():
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super secret key'
     app.run(host='0.0.0.0', port=5000)
