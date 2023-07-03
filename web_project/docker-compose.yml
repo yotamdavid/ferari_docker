@@ -1,6 +1,19 @@
 version: '3'
 services:
-  mysql:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+
+  db:
     image: mysql:latest
     restart: always
     environment:
@@ -10,11 +23,6 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - '3306:3306'
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
 volumes:
   data:
