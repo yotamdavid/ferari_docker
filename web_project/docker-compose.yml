@@ -20,7 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'yotam'
       MYSQL_DATABASE: 'web_users'
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data:/var/lib/mysql
     ports:
       - '3306:3306'
     healthcheck:
@@ -29,5 +29,3 @@ services:
       timeout: 5s
       retries: 3
 
-volumes:
-  data:
