@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
-from database import execute_query_mysql, insert_data_mysql
+from database import execute_query_mysql, insert_data_mysql, check_username_exists, check_email_exists, check_credentials, get_user_data
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -125,4 +125,4 @@ def ferari_296():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='localhost', port=5000)
