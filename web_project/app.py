@@ -28,23 +28,23 @@ def register():
         # בדיקה אם שם המשתמש כבר קיים
         if check_username_exists(username):
             flash('שם המשתמש כבר תפוס')
-            return redirect('/register')
+            return redirect('/register.html')
 
         # בדיקה אם האימייל כבר קיים
         if check_email_exists(email):
             flash('כתובת האימייל כבר קיימת')
-            return redirect('/register')
+            return redirect('/register.html')
 
         # בדיקה אם האימייל חוקי
         if not is_valid_email(email):
             flash('כתובת האימייל אינה חוקית')
-            return redirect('/register')
+            return redirect('/register.html')
 
         # שמירת הנתונים של המשתמש במסד הנתונים
         hashed_password = generate_password_hash(password)
         insert_data_mysql(username, hashed_password, email)
         flash('נרשמת בהצלחה!')
-        return redirect('/login')
+        return redirect('/login.html')
 
     return render_template('register.html')
 
@@ -64,9 +64,9 @@ def login():
             return redirect('/')  # הפניה לדף הראשי
 
         flash('שם המשתמש או הסיסמה שגויים')
-        return redirect('/login')
+        return redirect('/login.html')
 
-    return render_template('home.html')
+    return render_template('index.html')
 
 # דף התנתקות
 @app.route('/logout')
