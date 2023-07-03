@@ -13,9 +13,11 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: yotam
+      MYSQL_USER: root
     volumes:
       - web_project_mysql_data:/var/lib/mysql
 volumes:
   web_project_mysql_data:
+
 
 
