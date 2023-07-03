@@ -10,7 +10,6 @@ def create_db_connection():
         database='web_users'
     )
     return connection
-    print(connected)
 
 # ביצוע שאילתות SELECT
 def execute_query_mysql(query, params=None):
