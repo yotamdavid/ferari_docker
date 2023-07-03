@@ -46,9 +46,6 @@ def register():
         flash('נרשמת בהצלחה!')
         return redirect('/login.html')
 
-    return render_template('register.html')
-
-
 # דף התחברות
 @app.route('/login', methods=['GET', 'POST'])
 def login():
