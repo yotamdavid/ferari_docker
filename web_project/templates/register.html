@@ -18,5 +18,17 @@
         <br>
         <input type="submit" value="הרשם">
     </form>
+
+    <script>
+        // סקריפט להפניה לדף ההתחברות לאחר ההרשמה בהצלחה
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        var flashMessage = "{{ messages[0] }}";
+        if (flashMessage === "נרשמת בהצלחה!") {
+            window.location.href = "/login";
+        }
+        {% endif %}
+        {% endwith %}
+    </script>
 </body>
 </html>
