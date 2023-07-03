@@ -17,6 +17,7 @@ def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(pattern, email) is not None
 
+# דף הרשמה
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -48,7 +49,7 @@ def register():
     return render_template('register.html')
 
 
-# התחברות למערכת
+# דף התחברות
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -68,6 +69,17 @@ def login():
     return render_template('login.html')
 
 
+# דף התנתקות
+@app.route('/logout')
+def logout():
+    # בדיקה אם המשתמש מחובר
+    if 'username' in session:
+        # מחיקת המשתמש מ-session
+        session.pop('username', None)
+        flash('התנתקת בהצלחה!')
+    return redirect('/')
+
+
 # דף הלוח (רק למשתמשים מחוברים)
 @app.route('/dashboard')
 def dashboard():
@@ -79,17 +91,6 @@ def dashboard():
         return render_template('dashboard.html', user=user_data)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
-    return redirect('/')
-
-
-# התנתקות מהמערכת
-@app.route('/logout')
-def logout():
-    # בדיקה אם המשתמש מחובר
-    if 'username' in session:
-        # מחיקת המשתמש מ-session
-        session.pop('username', None)
-        flash('התנתקת בהצלחה!')
     return redirect('/')
 
 
