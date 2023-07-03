@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>התחברות</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <h1>התחברות</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <form method="POST" action="/login">
         <label for="username">שם משתמש:</label>
         <input type="text" id="username" name="username" required>
@@ -15,17 +24,5 @@
         <br>
         <input type="submit" value="התחבר">
     </form>
-
-    <script>
-        // סקריפט להפניה לדף הראשי לאחר ההתחברות בהצלחה
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        var flashMessage = "{{ messages[0] }}";
-        if (flashMessage === "התחברת בהצלחה!") {
-            window.location.href = "/";
-        }
-        {% endif %}
-        {% endwith %}
-    </script>
 </body>
 </html>
