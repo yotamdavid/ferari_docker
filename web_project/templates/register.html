@@ -1,34 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h1>הרשמה</h1>
-    <form method="POST" action="/register">
+    <h1>התחברות</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="/login">
         <label for="username">שם משתמש:</label>
         <input type="text" id="username" name="username" required>
         <br>
         <label for="password">סיסמה:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <label for="email">אימייל:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <input type="submit" value="הרשם">
+        <input type="submit" value="התחבר">
     </form>
-
-    <script>
-        // סקריפט להפניה לדף ההתחברות לאחר ההרשמה בהצלחה
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        var flashMessage = "{{ messages[0] }}";
-        if (flashMessage === "נרשמת בהצלחה!") {
-            window.location.href = "/login";
-        }
-        {% endif %}
-        {% endwith %}
-    </script>
 </body>
 </html>
