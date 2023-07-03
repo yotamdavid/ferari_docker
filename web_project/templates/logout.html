@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Logout</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<head>
     <title>התנתקות</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <h1>התנתקות</h1>
-    <p>התנתקת בהצלחה!</p>
-    <a href="/">לדף הראשי</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="/logout">
+        <input type="submit" value="התנתק">
+    </form>
 </body>
 </html>
