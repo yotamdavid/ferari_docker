@@ -8,15 +8,11 @@ services:
       - '5000:5000'
     depends_on:
       - db
-    command: >
-      bash -c "while ! nc -z db 3306; do sleep 1; done;
-      python app.py"
   db:
     image: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: yotam
-      MYSQL_USER: root
     ports:
       - '3306:3306'
     volumes:
