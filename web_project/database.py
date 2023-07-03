@@ -3,10 +3,10 @@ import mysql.connector
 # יצירת חיבור למסד הנתונים
 def create_db_connection():
     connection = mysql.connector.connect(
-        host='localhost',
+        host='db',
         user='root',
         password='yotam',
-        database='db'
+        database='web_users'
     )
     return connection
 
