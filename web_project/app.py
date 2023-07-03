@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from redis import Redis
 import re
-from database import get_data_from_redis, add_data_to_redis, execute_query_mysql, insert_data_mysql
+from database import execute_query_mysql, insert_data_mysql
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
-redis = Redis(host='localhost', port=6379)
 
 # דף הראשי
 @app.route('/')
@@ -27,12 +25,12 @@ def register():
         email = request.form['email']
 
         # בדיקה אם שם המשתמש כבר קיים
-        if redis.exists(username):
+        if check_username_exists(username):
             flash('שם המשתמש כבר תפוס')
             return redirect('/register')
 
         # בדיקה אם האימייל כבר קיים
-        if redis.exists(email):
+        if check_email_exists(email):
             flash('כתובת האימייל כבר קיימת')
             return redirect('/register')
 
@@ -41,10 +39,9 @@ def register():
             flash('כתובת האימייל אינה חוקית')
             return redirect('/register')
 
-        # שמירת הנתונים של המשתמש ב־Redis
+        # שמירת הנתונים של המשתמש במסד הנתונים
         hashed_password = generate_password_hash(password)
-        user_data = {'password': hashed_password, 'email': email}
-        add_data_to_redis(username, user_data)
+        insert_data_mysql(username, hashed_password, email)
         flash('נרשמת בהצלחה!')
         return redirect('/login')
 
@@ -58,9 +55,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים ב־Redis
-        user_data = get_data_from_redis(username)
-        if user_data and check_password_hash(user_data['password'], password):
+        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים במסד הנתונים
+        if check_credentials(username, password):
             # התחברות מוצלחת - שמירת המשתמש ב-session
             session['username'] = username
             flash('התחברת בהצלחה!')
@@ -79,7 +75,7 @@ def dashboard():
     if 'username' in session:
         # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
         username = session['username']
-        user_data = get_data_from_redis(username)
+        user_data = get_user_data(username)
         return render_template('dashboard.html', user=user_data)
 
     # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
@@ -129,4 +125,4 @@ def ferari_296():
 
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
