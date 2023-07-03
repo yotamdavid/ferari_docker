@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>התנתקות</title>
+    <title>דאשבורד</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h1>התנתקות</h1>
+    <h1>דאשבורד</h1>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flash-messages">
@@ -15,8 +15,7 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <form method="POST" action="/logout">
-        <input type="submit" value="התנתק">
-    </form>
+    <p>שלום, {{ username }}! ברוכים הבאים לדאשבורד שלך.</p>
+    <p>אתה מחובר עם האימייל: {{ email }}.</p>
 </body>
 </html>
