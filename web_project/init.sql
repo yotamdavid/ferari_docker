@@ -8,10 +8,3 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) NOT NULL
 );
 
--- יצירת דאטאבייס עבור הכניסות לאתר
-CREATE DATABASE IF NOT EXISTS site_entries;
-USE site_entries;
-CREATE TABLE IF NOT EXISTS entries (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  entry_time DATETIME NOT NULL
-);
