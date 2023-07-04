@@ -95,11 +95,11 @@ def get_user_data(username):
 
 # ספירת מספר הכניסות לאתר
 def get_site_entries_count():
-    query = "SELECT COUNT(*) FROM site_entries"
+    query = "SELECT COUNT(*) FROM entries"
     result = execute_query_login_counts_db(query)
     return result[0][0]
 
 # עדכון מספר הכניסות לאתר
 def increment_site_entries():
-    query = "INSERT INTO site_entries () VALUES ()"
+    query = "INSERT INTO entries () VALUES ()"
     execute_query_login_counts_db(query)
