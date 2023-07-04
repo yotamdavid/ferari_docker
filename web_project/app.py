@@ -11,7 +11,7 @@ def index():
     # קבלת מספר הכניסות לאתר
     site_entries = get_site_entries_count()
 
-    return render_template('index.html')
+    return render_template('index.html', site_entries=site_entries)
 
 
 # בדיקה האם האימייל חוקי
