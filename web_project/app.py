@@ -8,6 +8,9 @@ app = Flask(__name__)
 # דף הראשי
 @app.route('/')
 def index():
+    # עדכון מספר הכניסות לאתר
+    increment_site_entries()
+
     # קבלת מספר הכניסות לאתר
     site_entries = get_site_entries_count()
 
