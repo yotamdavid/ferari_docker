@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
-from database import execute_query_mysql, insert_data_mysql, check_username_exists, check_email_exists, check_credentials, get_user_data
+from database import (check_username_exists, check_email_exists, check_credentials, insert_data_mysql, get_user_data, get_site_entries_count, increment_site_entries)
 
 app = Flask(__name__)
 
