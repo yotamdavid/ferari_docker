@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- יצירת דאטאבייס עבור הכניסות לאתר
 CREATE DATABASE IF NOT EXISTS site_entries;
 USE site_entries;
-CREATE TABLE IF NOT EXISTS site_entries (
+CREATE TABLE IF NOT EXISTS entries (
   id INT AUTO_INCREMENT PRIMARY KEY,
   entry_time DATETIME NOT NULL
 );
