@@ -12,33 +12,10 @@ def create_users_db_connection():
     )
     return connection
 
-# יצירת חיבור למסד הנתונים של מספר הכניסות
-def create_login_counts_db_connection():
-    connection = mysql.connector.connect(
-        host='db2',
-        port='3307',
-        user='root',
-        password='yotam',
-        database='site_entries'
-    )
-    return connection
 
 # ביצוע שאילתות SELECT במסד הנתונים של משתמשים
 def execute_query_users_db(query, params=None):
     connection = create_users_db_connection()
-    cursor = connection.cursor()
-    if params:
-        cursor.execute(query, params)
-    else:
-        cursor.execute(query)
-    result = cursor.fetchall()
-    cursor.close()
-    connection.close()
-    return result
-
-# ביצוע שאילתות SELECT במסד הנתונים של מספר הכניסות
-def execute_query_login_counts_db(query, params=None):
-    connection = create_login_counts_db_connection()
     cursor = connection.cursor()
     if params:
         cursor.execute(query, params)
@@ -93,13 +70,3 @@ def get_user_data(username):
         return user_data
     return None
 
-# ספירת מספר הכניסות לאתר
-def get_site_entries_count():
-    query = "SELECT COUNT(*) FROM entries"
-    result = execute_query_login_counts_db(query)
-    return result[0][0]
-
-# עדכון מספר הכניסות לאתר
-def increment_site_entries():
-    query = "INSERT INTO entries () VALUES ()"
-    execute_query_login_counts_db(query)
