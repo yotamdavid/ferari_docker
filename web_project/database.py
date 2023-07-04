@@ -16,7 +16,7 @@ def create_users_db_connection():
 def create_login_counts_db_connection():
     connection = mysql.connector.connect(
         host='db2',
-        port='3307',
+        port='3309',
         user='root',
         password='yotam',
         database='site_entries'
