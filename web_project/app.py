@@ -8,7 +8,10 @@ app = Flask(__name__)
 # דף הראשי
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # קבלת מספר הכניסות לאתר
+    site_entries = get_site_entries_count()
+
+    return render_template('index.html', site_entries=site_entries)
 
 
 # בדיקה האם האימייל חוקי
