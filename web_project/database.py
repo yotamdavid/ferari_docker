@@ -94,12 +94,12 @@ def get_user_data(username):
     return None
 
 # ספירת מספר הכניסות לאתר
-def count_logins():
+def get_site_entries_count():
     query = "SELECT COUNT(*) FROM login_logs"
     result = execute_query_login_counts_db(query)
     return result[0][0]
 
-# הוספת רשומה לטבלת מספר הכניסות
-def add_login():
+# עדכון מספר הכניסות לאתר
+def increment_site_entries():
     query = "INSERT INTO login_logs () VALUES ()"
     execute_query_login_counts_db(query)
