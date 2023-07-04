@@ -1,9 +1,10 @@
 import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# יצירת חיבור למסד הנתונים
-def create_db_connection():
+# יצירת חיבור למסד הנתונים של משתמשים
+def create_users_db_connection():
     connection = mysql.connector.connect(
-        host='db',
+        host='db1',
         port='3306',
         user='root',
         password='yotam',
@@ -11,9 +12,33 @@ def create_db_connection():
     )
     return connection
 
-# ביצוע שאילתות SELECT
-def execute_query_mysql(query, params=None):
-    connection = create_db_connection()
+# יצירת חיבור למסד הנתונים של מספר הכניסות
+def create_login_counts_db_connection():
+    connection = mysql.connector.connect(
+        host='db2',
+        port='3307',
+        user='root',
+        password='yotam',
+        database='login_counts'
+    )
+    return connection
+
+# ביצוע שאילתות SELECT במסד הנתונים של משתמשים
+def execute_query_users_db(query, params=None):
+    connection = create_users_db_connection()
+    cursor = connection.cursor()
+    if params:
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
+    result = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return result
+
+# ביצוע שאילתות SELECT במסד הנתונים של מספר הכניסות
+def execute_query_login_counts_db(query, params=None):
+    connection = create_login_counts_db_connection()
     cursor = connection.cursor()
     if params:
         cursor.execute(query, params)
@@ -28,21 +53,21 @@ def execute_query_mysql(query, params=None):
 def check_username_exists(username):
     query = "SELECT * FROM users WHERE username = %s"
     params = (username,)
-    result = execute_query_mysql(query, params)
+    result = execute_query_users_db(query, params)
     return len(result) > 0
 
 # בדיקה האם כתובת האימייל כבר קיימת
 def check_email_exists(email):
     query = "SELECT * FROM users WHERE email = %s"
     params = (email,)
-    result = execute_query_mysql(query, params)
+    result = execute_query_users_db(query, params)
     return len(result) > 0
 
 # בדיקה האם שם המשתמש והסיסמה תואמים לנתונים במסד הנתונים
 def check_credentials(username, password):
     query = "SELECT * FROM users WHERE username = %s"
     params = (username,)
-    result = execute_query_mysql(query, params)
+    result = execute_query_users_db(query, params)
     if len(result) > 0:
         stored_password = result[0][2]
         return check_password_hash(stored_password, password)
@@ -52,13 +77,13 @@ def check_credentials(username, password):
 def insert_data_mysql(username, password, email):
     query = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
     params = (username, password, email)
-    execute_query_mysql(query, params)
+    execute_query_users_db(query, params)
 
 # הבאת נתוני המשתמש ממסד הנתונים
 def get_user_data(username):
     query = "SELECT * FROM users WHERE username = %s"
     params = (username,)
-    result = execute_query_mysql(query, params)
+    result = execute_query_users_db(query, params)
     if len(result) > 0:
         user_data = {
             'id': result[0][0],
@@ -67,3 +92,14 @@ def get_user_data(username):
         }
         return user_data
     return None
+
+# ספירת מספר הכניסות לאתר
+def count_logins():
+    query = "SELECT COUNT(*) FROM login_logs"
+    result = execute_query_login_counts_db(query)
+    return result[0][0]
+
+# הוספת רשומה לטבלת מספר הכניסות
+def add_login():
+    query = "INSERT INTO login_logs () VALUES ()"
+    execute_query_login_counts_db(query)
