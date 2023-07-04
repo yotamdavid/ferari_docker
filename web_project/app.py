@@ -1,20 +1,16 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
-from database import (check_username_exists, check_email_exists, check_credentials, insert_data_mysql, get_user_data, get_site_entries_count, increment_site_entries)
+from database import (check_username_exists, check_email_exists, check_credentials, insert_data_mysql, get_user_data)
 
 app = Flask(__name__)
 
 # דף הראשי
 @app.route('/')
 def index():
-    # עדכון מספר הכניסות לאתר
-    increment_site_entries()
+ 
 
-    # קבלת מספר הכניסות לאתר
-    site_entries = get_site_entries_count()
-
-    return render_template('index.html', site_entries=site_entries)
+    return render_template('index.html')
 
 
 # בדיקה האם האימייל חוקי
