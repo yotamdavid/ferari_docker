@@ -19,7 +19,7 @@ def create_login_counts_db_connection():
         port='3307',
         user='root',
         password='yotam',
-        database='login_counts'
+        database='site_entries'
     )
     return connection
 
