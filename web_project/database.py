@@ -7,7 +7,7 @@ def create_db_connection():
         port='3306',
         user='root',
         password='yotam',
-        database='web_users'
+        database='users_web'
     )
     return connection
 
