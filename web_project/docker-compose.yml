@@ -19,7 +19,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'yotam'
-      MYSQL_DATABASE: 'web_users'
+      MYSQL_DATABASE: 'visits'
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
