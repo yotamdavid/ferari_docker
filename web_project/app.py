@@ -21,51 +21,12 @@ def is_valid_email(email):
 # דף הרשמה
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-
-        # בדיקה אם שם המשתמש כבר קיים
-        if check_username_exists(username):
-            flash('שם המשתמש כבר תפוס')
-            return redirect('/register')
-
-        # בדיקה אם האימייל כבר קיים
-        if check_email_exists(email):
-            flash('כתובת האימייל כבר קיימת')
-            return redirect('/register')
-
-        # בדיקה אם האימייל חוקי
-        if not is_valid_email(email):
-            flash('כתובת האימייל אינה חוקית')
-            return redirect('/register')
-
-        # שמירת הנתונים של המשתמש במסד הנתונים
-        hashed_password = generate_password_hash(password)
-        insert_data_mysql(username, hashed_password, email)
-        flash('נרשמת בהצלחה!')
-        return redirect('/login')
-
     return render_template('register.html')
 
 
 # דף התחברות
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        # בדיקה אם שם המשתמש והסיסמה תואמים לנתונים במסד הנתונים
-        if check_credentials(username, password):
-            # התחברות מוצלחת - שמירת המשתמש ב-session
-            session['username'] = username
-            flash('התחברת בהצלחה!')
-            return redirect('/')
-
-        flash('שם המשתמש או הסיסמה שגויים')
-        return redirect('/login')
 
     return render_template('login.html')
 
@@ -73,25 +34,14 @@ def login():
 # דף התנתקות
 @app.route('/logout')
 def logout():
-    # בדיקה אם המשתמש מחובר
-    if 'username' in session:
-        # מחיקת המשתמש מ-session
-        session.pop('username', None)
-        flash('התנתקת בהצלחה!')
+
     return redirect('/')
 
 
 # דף הלוח (רק למשתמשים מחוברים)
 @app.route('/dashboard')
 def dashboard():
-    # בדיקה אם המשתמש מחובר
-    if 'username' in session:
-        # משתמש מחובר - הצגת הנתונים שלו בדף הלוח
-        username = session['username']
-        user_data = get_user_data(username)
-        return render_template('dashboard.html', user=user_data)
 
-    # אם המשתמש לא מחובר, הוא מועבר לדף הראשי
     return redirect('/')
 
 
