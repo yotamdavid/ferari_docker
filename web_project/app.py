@@ -5,10 +5,10 @@ import re
 app = Flask(__name__)
 
 db_config = {
-    'host': 'localhost',
-    'user': 'username',
-    'password': 'password',
-    'database': 'myappdb'
+    'host': 'db1',
+    'user': 'root',
+    'password': 'yotam',
+    'database': 'users'
 }
 
 def execute_query(query, values=None, fetch=False):
