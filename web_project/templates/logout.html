@@ -6,17 +6,14 @@
 </head>
 <body>
     <h1>התנתקות</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <form method="POST" action="/logout">
-        <input type="submit" value="התנתק">
-    </form>
+    {% if 'username' in session %}
+        <p>ברוך הבא, {{ session['username'] }}!</p>
+        <p>האם אתה בטוח שברצונך להתנתק?</p>
+        <a href="/logout">התנתק</a>
+    {% else %}
+        <p>אתה לא מחובר.</p>
+        <a href="/">חזור לעמוד הראשי</a>
+    {% endif %}
 </body>
 </html>
+
