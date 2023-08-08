@@ -6,7 +6,7 @@ import re
 app = Flask(__name__)
 
 db_config = {
-    'host': 'db1',
+    'host': 'db',
     'port': '3306',
     'user': 'root',
     'password': 'yotam',
