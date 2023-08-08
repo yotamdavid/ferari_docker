@@ -16,11 +16,16 @@
         {% endif %}
     {% endwith %}
     <form method="POST" action="/register">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br>
-        <input type="submit" value="Register">
+        <label for="username">שם משתמש:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">סיסמה:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        {% if 'password_requirements' in session %}
+            <p class="password-requirements">{{ session['password_requirements'] }}</p>
+        {% endif %}
+        <input type="submit" value="הרשם">
     </form>
 </body>
 </html>
