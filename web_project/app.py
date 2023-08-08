@@ -59,11 +59,15 @@ def login():
         query = 'SELECT * FROM users WHERE username = %s'
         values = (username,)
         result = execute_query(query, values, fetch=True)
-        if result and check_password_hash(result[0][2], password):  # השיפור: בדיקת צפיפות סיסמה
-            session['username'] = username
-            return redirect('/')
+        if result:
+            if check_password_hash(result[0][2], password):
+                session['username'] = username
+                return redirect('/')
+            else:
+                flash('סיסמה שגויה. אנא נסה שוב.', 'error')
+        else:
+            flash('שם משתמש לא קיים. אנא נסה שוב.', 'error')
     return render_template('login.html')
-
 @app.route('/logout')
 def logout():
     session.pop('username', None)
