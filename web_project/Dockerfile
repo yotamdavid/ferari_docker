@@ -1,7 +1,7 @@
 FROM python:3.10
 
 # set a directory for the app
-WORKDIR /home/yotam/Desktop/docker/ferari_docker/web_project/app
+WORKDIR /usr/src/app
 
 # copy all the files to the container
 COPY . .
