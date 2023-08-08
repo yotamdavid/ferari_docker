@@ -4,43 +4,77 @@ import re
 
 app = Flask(__name__)
 
-# דף הראשי
+db_config = {
+    'host': 'localhost',
+    'user': 'username',
+    'password': 'password',
+    'database': 'myappdb'
+}
+
+def execute_query(query, values=None, fetch=False):
+    try:
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor()
+        
+        if values:
+            cursor.execute(query, values)
+        else:
+            cursor.execute(query)
+        
+        if fetch:
+            result = cursor.fetchall()
+        else:
+            connection.commit()
+            result = None
+        
+        cursor.close()
+        connection.close()
+        
+        return result
+        
+    except mysql.connector.Error as err:
+        print('Error:', err)
+        return None
+
 @app.route('/')
 def index():
- 
-
     return render_template('index.html')
 
-
-# בדיקה האם האימייל חוקי
-def is_valid_email(email):
-    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    return re.match(pattern, email) is not None
-
-# דף הרשמה
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        query = 'INSERT INTO users (username, password) VALUES (%s, %s)'
+        values = (username, password)
+        
+        execute_query(query, values)
+        
+        return redirect('/login')
+    
     return render_template('register.html')
 
-
-# דף התחברות
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        query = 'SELECT * FROM users WHERE username = %s AND password = %s'
+        values = (username, password)
+        
+        result = execute_query(query, values, fetch=True)
+        
+        if result:
+            session['username'] = username  # שמירת שם המשתמש ב-session
+            return redirect('/')
+    
     return render_template('login.html')
 
-
-# דף התנתקות
 @app.route('/logout')
 def logout():
-
-    return redirect('/')
-
-
-# דף הלוח (רק למשתמשים מחוברים)
-@app.route('/dashboard')
-def dashboard():
-
+    session.pop('username', None)  # הסרת שם המשתמש מה-session
     return redirect('/')
 
 
