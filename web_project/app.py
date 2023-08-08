@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
+import re
 
 app = Flask(__name__)
 
@@ -78,13 +79,43 @@ def login():
         else:
             flash('שם משתמש לא קיים. אנא נסה שוב.', 'error')
     return render_template('login.html')
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/')
 
-# שאר הדפים
-# ...
+
+# דפים נוספים
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/services')
+def services():
+    return render_template('services.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@app.route('/ferari_f8')
+def ferari_f8():
+    return render_template('ferari_f8.html')
+
+
+@app.route('/ferari_roma')
+def ferari_roma():
+    return render_template('ferari_roma.html')
+
+
+@app.route('/ferari_296')
+def ferari_296():
+    return render_template('ferari_296.html')
+
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
