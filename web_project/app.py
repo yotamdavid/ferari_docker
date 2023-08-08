@@ -44,11 +44,20 @@ def index():
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        password_hash = generate_password_hash(request.form['password'])  # השיפור: צפיפת סיסמה
-        query = 'INSERT INTO users (username, password_hash) VALUES (%s, %s)'  # השיפור: שדה password_hash
+        password = request.form['password']
+        
+        # בדיקה שהסיסמה עומדת בדרישות
+        if not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', password):
+            session['password_requirements'] = 'הסיסמה חייבת להיות מורכבת מלפחות 8 תווים, כולל אותיות ומספרים.'
+            return redirect('/register')
+        
+        query = 'INSERT INTO users (username, password_hash) VALUES (%s, %s)'
+        password_hash = generate_password_hash(password)
         values = (username, password_hash)
         execute_query(query, values)
+        
         return redirect('/login')
+    
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
