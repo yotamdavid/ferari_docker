@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.8
 
 # set a directory for the app
 WORKDIR /usr/src/app
@@ -13,5 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # define the port number the container should expose
 EXPOSE 5000
 
-# run the application with MySQL
+# run the application
 CMD [ "python3", "app.py" ]
