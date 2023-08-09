@@ -1,16 +1,9 @@
--- sql.ini
+CREATE DATABASE IF NOT EXISTS users;
 
--- יצירת מסד הנתונים
-CREATE DATABASE users;
-
--- שימוש במסד הנתונים
 USE users;
 
--- יצירת הטבלה לניהול משתמשים
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     password_hash VARCHAR(255) NOT NULL
 );
-
-
