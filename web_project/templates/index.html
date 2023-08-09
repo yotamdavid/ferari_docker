@@ -58,6 +58,13 @@
 
   <header>
     <h1>המייבאים</h1>
+    {% if current_user.is_authenticated %}
+      <span class="logged-in-user">{{ current_user.username }}</span>
+    {% endif %}
+  </header>
+          
+  <header>
+    <h1>המייבאים</h1>
   </header>
   <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
   <div class="content">
