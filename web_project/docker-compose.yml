@@ -10,7 +10,7 @@ services:
       - db
     restart: always
   db:
-    image: mysql:latest
+    image: yotamdavid/appdatabase:1.1
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
