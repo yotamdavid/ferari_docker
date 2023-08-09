@@ -107,31 +107,6 @@
 
             <footer>
               <p>כל הזכויות שמורות &copy; לאחד והיחיד</p>
-              <?php
-              // קוד PHP לשאילתת ה-MySQL והצגת מספר הכניסות לאתר
-              $servername = "db1";
-              $username = "root";
-              $password = "yotam";
-              $dbname = "visits";
-          
-              // התחברות למסד הנתונים
-              $conn = new mysqli($servername, $username, $password, $dbname);
-          
-              // בדיקת קישור
-              if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-              }
-          
-              // שאילתת SQL לקבלת מספר הכניסות לאתר
-              $sql = "SELECT COUNT(*) AS total_visits FROM visits";
-              $result = $conn->query($sql);
-              $row = $result->fetch_assoc();
-              $total_visits = $row["total_visits"];
-          
-              // סגירת חיבור למסד הנתונים
-              $conn->close();
-              ?>
-              <p>מספר הכניסות לאתר: <?php echo $total_visits; ?></p> <!-- תצוגת מספר הכניסות לאתר -->
             </footer>
 
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
