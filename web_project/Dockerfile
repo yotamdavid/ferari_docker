@@ -1,12 +1,17 @@
-# Use the official MySQL image as base
-FROM mysql:latest
+FROM python:latest
 
-# Set environment variables for MySQL
-ENV MYSQL_ROOT_PASSWORD=yotam
-ENV MYSQL_DATABASE=users
+# set a directory for the app
+WORKDIR /usr/src/app
 
-# Copy the init.sql file to the Docker entrypoint directory
-COPY init.sql /docker-entrypoint-initdb.d/
+# copy all the files to the container
+COPY . .
 
-# Expose the MySQL port
-EXPOSE 3306
+# install dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+# define the port number the container should expose
+EXPOSE 5000
+
+# run the application
+CMD [ "python3", "app.py" ]
