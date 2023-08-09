@@ -2,20 +2,10 @@
 <html>
 <head>
     <title>דאשבורד</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <h1>דאשבורד</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <p>שלום, {{ username }}! ברוכים הבאים לדאשבורד שלך.</p>
-    <p>אתה מחובר עם האימייל: {{ email }}.</p>
+    <h1>ברוך הבא לדאשבורד</h1>
+    <p>שם משתמש: {{ username }}</p>
 </body>
 </html>
+
