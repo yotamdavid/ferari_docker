@@ -85,6 +85,14 @@ def logout():
     session.pop('username', None)
     return redirect('/')
 
+@app.route('/dashboard')
+def dashboard():
+    if 'username' in session:
+        username = session['username']
+        return render_template('dashboard.html', username=username)
+    else:
+        flash('עליך להתחבר קודם', 'error')
+        return redirect('/login')
 
 # דפים נוספים
 @app.route('/about')
