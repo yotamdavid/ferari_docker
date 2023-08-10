@@ -8,9 +8,9 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - db
+      - db-service
     restart: always
-  db:
+  db-service:
     image: yotamdavid/appdatabase:latest
     container_name: mysql-service
     command: --default-authentication-plugin=mysql_native_password
